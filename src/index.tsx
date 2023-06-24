@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { RecoilRoot } from 'recoil';
-import { createGlobalStyle } from "styled-components";
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { darkTheme } from './theme';
 
 const GlobalStyled = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -73,7 +74,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <RecoilRoot>
-    <GlobalStyled />
-    <App />
+    <ThemeProvider theme={darkTheme}>
+      <GlobalStyled />
+      <App />
+    </ThemeProvider>
   </RecoilRoot>
 );
