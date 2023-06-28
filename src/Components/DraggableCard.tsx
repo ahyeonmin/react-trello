@@ -3,7 +3,7 @@ import { Draggable } from "react-beautiful-dnd";
 import { styled } from "styled-components";
 
 const Card = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 5px 10px;
   background-color: ${(props) => props.theme.cardColor};
   border-radius: 5px;
@@ -15,7 +15,6 @@ interface IDraggableCard {
 };
 
 function DraggableCard({ toDo, index }: IDraggableCard) {
-    console.log(toDo + ` has been rendered`);
     return (
         <Draggable key={toDo} draggableId={toDo} index={index} /* key와 draggableId가 같아야 함 */>
             {(magic) => <Card ref={magic.innerRef} {...magic.draggableProps} {...magic.dragHandleProps}> {toDo} </Card>}
