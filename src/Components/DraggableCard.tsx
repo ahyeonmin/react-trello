@@ -7,6 +7,7 @@ const Card = styled.div`
   padding: 5px 10px;
   background-color: ${(props) => props.theme.cardColor};
   border-radius: 5px;
+  color: ${(props) => props.theme.boardColor};
 `;
 
 interface IDraggableCard {

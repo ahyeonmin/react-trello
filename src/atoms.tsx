@@ -7,8 +7,8 @@ interface IToDoState { // 유저가 Board를 추가할 수 있도록
 export const toDoState = atom<IToDoState>({
     key: "toDo",
     default: {
-        to_do: ["a", "b"],
-        doing: ["c", "d"],
-        done: ["e"],
+        "To Do": ["a", "b"],
+        "Doing": ["c", "d", "e"],
+        "Done": ["f"],
     },
 });
