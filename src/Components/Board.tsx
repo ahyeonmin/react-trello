@@ -1,6 +1,8 @@
 import { Droppable } from "react-beautiful-dnd";
 import { styled } from "styled-components";
 import DraggableCard from "./DraggableCard";
+import { useForm } from "react-hook-form";
+import { ITodo } from "../atoms";
 
 const Wrapper = styled.div`
     display: flex;
@@ -9,8 +11,8 @@ const Wrapper = styled.div`
     padding-top: 15px;
     background-color: ${(props) => props.theme.boardColor};
     border-radius: 5px;
+    overflow: hidden;
 `;
-
 const Title = styled.div`
     padding-bottom: 10px;
     text-align: center;
@@ -18,12 +20,17 @@ const Title = styled.div`
     font-weight: bold;
     color: ${(props) => props.theme.cardColor};
 `;
+const Form = styled.form`
+    width: 100%;
+    input {
+        width: 100%;
+    }
+`;
 
 interface IAreaProps {
     isDraggingOver: boolean;
     draggingFromThisWith: boolean;
 };
-
 const Area = styled.div<IAreaProps>`
     background-color: ${(props) => props.isDraggingOver ? "#9DADC4" : props.draggingFromThisWith ? "#546699" : "none"};
     flex-grow: 1; // 영역을 맨 아래까지 이어지도록 해서 드래그 영역을 넓힘
@@ -31,14 +38,24 @@ const Area = styled.div<IAreaProps>`
 `;
 
 interface IBoardProps {
-    toDos: string[];
+    toDos: ITodo[];
     boardId: string;
 };
+interface IForm {
+    toDo: string;
+}
 
 function Board({ toDos, boardId }: IBoardProps) {
+    const { register, setValue, handleSubmit } = useForm<IForm>();
+    const onSubmit = () => {
+        setValue("toDo", ""); // 입력 후 엔터치면 빈칸으로
+    };
     return (
         <Wrapper>
             <Title>{boardId}</Title>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+                <input {...register("toDo", { required: true })} type="text" placeholder={`Add task on ${boardId}`} />
+            </Form>
             <Droppable droppableId={boardId}>
                 {(provided, snapshot) => (
                     <Area
@@ -48,7 +65,7 @@ function Board({ toDos, boardId }: IBoardProps) {
                         {...provided.droppableProps}
                     >
                         {toDos.map((toDo, index) => (
-                            <DraggableCard key={toDo} index={index} toDo={toDo} />
+                            <DraggableCard key={toDo.id} index={index} toDoId={toDo.id} toDoText={toDo.text} />
                         ))}
                         {provided.placeholder} {/* Card 이동 시 Board 사이즈 유지 */}
                     </Area>

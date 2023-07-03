@@ -7,20 +7,21 @@ const Card = styled.div<{ isDragging: boolean }>`
   margin: 10px;
   padding: 5px 10px;
   background-color: ${(props) => props.theme.cardColor};
-  box-shadow: 2px 5px 8px ${(props) => props.isDragging ? "#021608" : "none"};
+  box-shadow: 2px 5px 8px ${(props) => props.isDragging ? "#000104" : "none"};
   border-radius: 5px;
   color: ${(props) => props.theme.boardColor};
   transition: background-color 0.2s ease-in;
 `;
 
 interface IDraggableCard {
-    toDo: string;
+    toDoId: number;
+    toDoText: string;
     index: number;
 };
 
-function DraggableCard({ toDo, index }: IDraggableCard) {
+function DraggableCard({ toDoId, toDoText, index }: IDraggableCard) {
     return (
-        <Draggable key={toDo} draggableId={toDo} index={index} /* key와 draggableId가 같아야 함 */>
+        <Draggable key={toDoId} draggableId={toDoId + ""} index={index} /* key와 draggableId가 같아야 함 */>
             {(provided, snapshot) =>
                 <Card
                     isDragging={snapshot.isDragging} // * snapshot의 isDragging: 드래그 할 때
@@ -28,7 +29,7 @@ function DraggableCard({ toDo, index }: IDraggableCard) {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                 >
-                    {toDo}
+                    {toDoText}
                 </Card>}
         </Draggable>
     );
