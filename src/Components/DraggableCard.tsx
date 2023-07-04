@@ -10,7 +10,7 @@ const Card = styled.div<{ isDragging: boolean }>`
   box-shadow: 2px 5px 8px ${(props) => props.isDragging ? "#000104" : "none"};
   border-radius: 5px;
   color: ${(props) => props.theme.boardColor};
-  transition: background-color 0.2s ease-in;
+  transition: background-color 0.1s ease-in;
 `;
 
 interface IDraggableCard {

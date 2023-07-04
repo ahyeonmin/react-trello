@@ -2,7 +2,8 @@ import { Droppable } from "react-beautiful-dnd";
 import { styled } from "styled-components";
 import DraggableCard from "./DraggableCard";
 import { useForm } from "react-hook-form";
-import { ITodo } from "../atoms";
+import { ITodo, toDoState } from "../atoms";
+import { useSetRecoilState } from "recoil";
 
 const Wrapper = styled.div`
     display: flex;
@@ -32,9 +33,9 @@ interface IAreaProps {
     draggingFromThisWith: boolean;
 };
 const Area = styled.div<IAreaProps>`
-    background-color: ${(props) => props.isDraggingOver ? "#9DADC4" : props.draggingFromThisWith ? "#546699" : "none"};
+    background-color: ${(props) => props.draggingFromThisWith ? "#546699" : "none"};
     flex-grow: 1; // 영역을 맨 아래까지 이어지도록 해서 드래그 영역을 넓힘
-    transition: background-color 0.2s ease-in;
+    transition: background-color 0.1s ease-in-out;
 `;
 
 interface IBoardProps {
@@ -46,8 +47,19 @@ interface IForm {
 }
 
 function Board({ toDos, boardId }: IBoardProps) {
+    const setToDos = useSetRecoilState(toDoState);
     const { register, setValue, handleSubmit } = useForm<IForm>();
-    const onSubmit = () => {
+    const onSubmit = ({ toDo }: IForm) => {
+        const newToDo = {
+            id: Date.now(), // 중복되지 않는 특별한 값
+            text: toDo,
+        };
+        setToDos((allBoards) => {
+            return {
+                ...allBoards, // 1) 기존의 모든 Board를 가져오기
+                [boardId]: [ newToDo, ...allBoards[boardId]], // 2) 현재 있는 Board에, 새로운 요소를 추가하고, 기존의 요소들을 다 넣기
+            }
+        });
         setValue("toDo", ""); // 입력 후 엔터치면 빈칸으로
     };
     return (
