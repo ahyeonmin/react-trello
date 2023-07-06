@@ -6,6 +6,10 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { darkTheme } from './theme';
 
 const GlobalStyled = createGlobalStyle`
+  @font-face {
+    font-family: 'UnDinaru';
+    src: url('https://cdn.jsdelivr.net/gh/wooin21/web/fonts/UnFont/UnDinaru.woff') format('woff');
+  }
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
   a, abbr, acronym, address, big, cite, code,
@@ -23,7 +27,6 @@ const GlobalStyled = createGlobalStyle`
     padding: 0;
     border: 0;
     font-size: 100%;
-    font: inherit;
     vertical-align: baseline;
   }
   /* HTML5 display-role reset for older browsers */
@@ -33,8 +36,8 @@ const GlobalStyled = createGlobalStyle`
   }
   body {
     line-height: 1;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: black;
+    font-family: 'UnDinaru';
+    color: #2D2D2D;
   }
   ol, ul {
     list-style: none;
@@ -55,17 +58,9 @@ const GlobalStyled = createGlobalStyle`
     text-decoration: none;
     color: inherit; // 부모 색상 받기
   }
-  body::-webkit-scrollbar {
-    width: 1rem;
-  }
-  body::-webkit-scrollbar-thumb {
-    background-color: #666666;
-		border-radius: 1rem;
-		background-clip: padding-box;
-		border: 0.25rem solid transparent;
-  }
-  body::-webkit-scrollbar-track {
-    background-color: #141414;
+  input {
+    font-family: 'UnDinaru';
+    outline: none;
   }
 `;
 

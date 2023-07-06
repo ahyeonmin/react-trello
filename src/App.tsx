@@ -6,19 +6,34 @@ import { toDoState } from './atoms';
 import Board from './Components/Board';
 
 const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+const Top = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #52BBA4;
   width: 100%;
-  height: 100vh;
-  background-color: ${(props) => props.theme.bgColor};
+  height: 4vh;
+`;
+const Logo = styled.div`
+  font-size: 12px;
+  color: white;
+`;
+const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 96vh;
+  background: linear-gradient(to top, white, #ACE0BB);
 `;
 const Boards = styled.div`
   display: grid;
   width: 100%;
-  max-width: 680px;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(100, 1fr);
+  overflow: scroll;
+  padding: 40px;
 `;
 
 function App() {
@@ -57,9 +72,14 @@ function App() {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
-        <Boards>
-          {Object.keys(toDos).map((boardId) => <Board key={boardId} toDos={toDos[boardId]} boardId={boardId}/>)}
-        </Boards>
+        <Top> 
+          <Logo> 트렐로 </Logo>
+        </Top>
+        <Content>
+          <Boards>
+            {Object.keys(toDos).map((boardId) => <Board key={boardId} toDos={toDos[boardId]} boardId={boardId}/>)}
+          </Boards>
+        </Content>
       </Wrapper>
     </DragDropContext>
   );

@@ -8,23 +8,22 @@ import { useSetRecoilState } from "recoil";
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    min-height: 200px;
-    padding-top: 15px;
+    width: 300px;
+    padding: 10px 0;
     background-color: ${(props) => props.theme.boardColor};
     border-radius: 5px;
-    overflow: hidden;
+    box-shadow: 2px 2px 2px #AFB3B5;
+    margin: 0 5px;
 `;
 const Title = styled.div`
-    padding-bottom: 10px;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: ${(props) => props.theme.cardColor};
+    padding: 0 0 10px 10px;
+    font-size: 14px;
 `;
 const Form = styled.form`
-    width: 100%;
+    padding: 0 10px;
     input {
-        width: 100%;
+        width: 95%;
+        border: none;
     }
 `;
 
@@ -57,7 +56,7 @@ function Board({ toDos, boardId }: IBoardProps) {
         setToDos((allBoards) => {
             return {
                 ...allBoards, // 1) 기존의 모든 Board를 가져오기
-                [boardId]: [ newToDo, ...allBoards[boardId]], // 2) 현재 있는 Board에, 새로운 요소를 추가하고, 기존의 요소들을 다 넣기
+                [boardId]: [ ...allBoards[boardId], newToDo], // 2) 현재 있는 Board에, 새로운 요소를 추가하고, 기존의 요소들을 다 넣기
             }
         });
         setValue("toDo", ""); // 입력 후 엔터치면 빈칸으로
@@ -65,9 +64,6 @@ function Board({ toDos, boardId }: IBoardProps) {
     return (
         <Wrapper>
             <Title>{boardId}</Title>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                <input {...register("toDo", { required: true })} type="text" placeholder={`Add task on ${boardId}`} />
-            </Form>
             <Droppable droppableId={boardId}>
                 {(provided, snapshot) => (
                     <Area
@@ -83,6 +79,9 @@ function Board({ toDos, boardId }: IBoardProps) {
                     </Area>
                 )}
             </Droppable>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+                <input {...register("toDo", { required: true })} type="text" placeholder={`+ 메모를 추가하세요.`} />
+            </Form>
         </Wrapper>
     );
 }
