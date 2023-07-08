@@ -15,7 +15,7 @@ const Wrapper = styled.div`
     border-radius: 5px;
     box-shadow: 2px 2px 2px #AFB3B5;
     margin: 0 5px;
-    height: fit-content; // 컨텐츠에 맞는 길이로 변형!!! ㅎㅎ 신난다
+    height: fit-content; // 컨텐츠(카드) 크기에 맞추기 !!! ㅎㅎ 신난다
 `;
 const Title = styled.div`
     padding: 0 0 10px 10px;
