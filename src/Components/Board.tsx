@@ -11,9 +11,11 @@ const Wrapper = styled.div`
     width: 300px;
     padding: 10px 0;
     background-color: ${(props) => props.theme.boardColor};
+    border: 2px solid #d3d3d36f;
     border-radius: 5px;
     box-shadow: 2px 2px 2px #AFB3B5;
     margin: 0 5px;
+    height: fit-content; // 컨텐츠에 맞는 길이로 변형!!! ㅎㅎ 신난다
 `;
 const Title = styled.div`
     padding: 0 0 10px 10px;
