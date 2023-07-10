@@ -12,8 +12,9 @@ interface IToDoState { // 유저가 Board를 추가할 수 있도록
 export const toDoState = atom<IToDoState>({
     key: "toDo",
     default: {
-        "월요일": [],
-        "화요일": [],
-        "수요일": [],
+        "할 일": [],
+        "수행 중...": [],
+        "다 했다!": [],
+        "아이디어": [],
     },
 });

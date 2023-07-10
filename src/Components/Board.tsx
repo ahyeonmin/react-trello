@@ -11,21 +11,25 @@ const Wrapper = styled.div`
     width: 300px;
     padding: 10px 0;
     background-color: ${(props) => props.theme.boardColor};
-    border: 2px solid #d3d3d36f;
     border-radius: 5px;
-    box-shadow: 2px 2px 2px #AFB3B5;
+    box-shadow: 0px 0px 10px #afb3b580, 0px 0px 5px #afb3b542;
     margin: 0 5px;
+    min-height: 60px;
     height: fit-content; // 컨텐츠(카드) 크기에 맞추기 !!! ㅎㅎ 신난다
 `;
 const Title = styled.div`
-    padding: 0 0 10px 10px;
+    padding: 0 0 5px 15px;
     font-size: 14px;
 `;
 const Form = styled.form`
     padding: 0 10px;
     input {
-        width: 95%;
+        width: 93%;
         border: none;
+        padding: 10px;
+        box-shadow: 0px 0px 10px #afb3b55f, 0px 0px 5px #afb3b535;
+        border-radius: 5px;
+        font-size: 12px;
     }
 `;
 
@@ -34,7 +38,7 @@ interface IAreaProps {
     draggingFromThisWith: boolean;
 };
 const Area = styled.div<IAreaProps>`
-    background-color: ${(props) => props.draggingFromThisWith ? "#546699" : "none"};
+    background-color: ${(props) => props.isDraggingOver ? "#ecf0f185" : "none"};
     flex-grow: 1; // 영역을 맨 아래까지 이어지도록 해서 드래그 영역을 넓힘
     transition: background-color 0.1s ease-in-out;
 `;
