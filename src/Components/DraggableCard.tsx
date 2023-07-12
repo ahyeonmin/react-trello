@@ -3,6 +3,8 @@ import { Draggable } from "react-beautiful-dnd";
 import { styled } from "styled-components";
 import { BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai'
+import { toDoState } from "../atoms";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 const Card = styled.div<{ isDragging: boolean }>`
     margin-bottom: 10px;
@@ -31,8 +33,8 @@ const CardIcons = styled.div`
     gap: 6px;
     div {
         &:hover {
-        color: #2D2D2D;
-    }
+            color: #2D2D2D;
+        }
     }
 `;
 
@@ -40,9 +42,10 @@ interface IDraggableCard {
     toDoId: number;
     toDoText: string;
     index: number;
+    boardId: string;
 };
 
-function DraggableCard({ toDoId, toDoText, index }: IDraggableCard) {
+function DraggableCard({ toDoId, toDoText, index, boardId }: IDraggableCard) {
     function timestamp() {
         var dateName = ['일', '월', '화', '수', '목', '금', '토'];
         var month = new Date().getMonth() + 1;
@@ -51,6 +54,17 @@ function DraggableCard({ toDoId, toDoText, index }: IDraggableCard) {
         return (month + "/" + date + " (" + day + ")");
     };
     const time = timestamp();
+    const [toDos, setToDos] = useRecoilState(toDoState);
+    const onDeleteToDo = () => {
+        setToDos((allBoards) => {
+            const crrTodo = [...allBoards[boardId]]; // 1) 현재 Board의 toDo 가져오기
+            crrTodo.splice(index, 1); // 2) 현재 index로 toDo 삭제
+            return {
+                ...allBoards, // 3) 나머지 Board들 불러오기
+                [boardId]: crrTodo // 4) 현재 보드에 남은 toDo 넣어서 보여주기
+            }
+        });
+    };
     return (
         <Draggable key={toDoId} draggableId={toDoId + ""} index={index} /* key와 draggableId가 같아야 함 */>
             {(provided, snapshot) =>
@@ -66,7 +80,10 @@ function DraggableCard({ toDoId, toDoText, index }: IDraggableCard) {
                         <CardIcons>
                             <div> <BsFillPencilFill /> </div>
                             <div>
-                                <AiOutlineClose style={{ position: "relative", bottom: "0.5px", fontSize: "13px" }} />
+                                <AiOutlineClose
+                                    onClick={onDeleteToDo}
+                                    style={{ position: "relative", bottom: "0.5px", fontSize: "13px" }}
+                                />
                             </div>
                         </CardIcons>
                     </CardInfo>

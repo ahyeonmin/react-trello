@@ -79,7 +79,7 @@ function Board({ toDos, boardId }: IBoardProps) {
                         {...provided.droppableProps}
                     >
                         {toDos.map((toDo, index) => (
-                            <DraggableCard key={toDo.id} index={index} toDoId={toDo.id} toDoText={toDo.text} />
+                            <DraggableCard key={toDo.id} index={index} toDoId={toDo.id} toDoText={toDo.text} boardId={boardId}/>
                         ))}
                         {provided.placeholder} {/* Card 이동 시 Board 사이즈 유지 */}
                     </Area>
