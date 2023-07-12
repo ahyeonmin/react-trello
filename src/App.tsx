@@ -4,6 +4,7 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useRecoilState } from 'recoil';
 import { toDoState } from './atoms';
 import Board from './Components/Board';
+import { FiSun } from 'react-icons/fi'
 import { FiPlus } from 'react-icons/fi'
 
 const Wrapper = styled.div`
@@ -39,7 +40,21 @@ const Boards = styled.div`
      display: none;
   }
 `;
-const Bottom = styled.div``;
+const Bottom = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const IconBox = styled.div`
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: #ffffffa5;
+  box-shadow: 0px 0px 10px #afb3b55f, 0px 0px 5px #afb3b535;
+  cursor: pointer;
+`;
 
 function App() {
   const [ toDos, setToDos ] = useRecoilState(toDoState);
@@ -74,6 +89,8 @@ function App() {
       });
     }
   };
+  const onThemeSwitch = () => {};
+  const onAddBoard = () => {};
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
@@ -85,6 +102,20 @@ function App() {
             {Object.keys(toDos).map((boardId) => <Board key={boardId} toDos={toDos[boardId]} boardId={boardId}/>)}
           </Boards>
         </Content>
+        <Bottom>
+          <IconBox
+            onClick={onThemeSwitch}
+            style={{ left: "0px", bottom: "0px", borderTopRightRadius: "40px", fontSize: "55px" }}
+          >
+            <FiSun />
+          </IconBox>
+          <IconBox
+            onClick={onAddBoard}
+            style={{ right: "0px", bottom: "0px", borderTopLeftRadius: "40px", fontSize: "62px" }}
+          >
+            <FiPlus />
+          </IconBox>
+        </Bottom>
       </Wrapper>
     </DragDropContext>
   );
