@@ -4,6 +4,7 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useRecoilState } from 'recoil';
 import { toDoState } from './atoms';
 import Board from './Components/Board';
+import { FiPlus } from 'react-icons/fi'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -34,7 +35,11 @@ const Boards = styled.div`
   grid-template-columns: repeat(100, 1fr);
   overflow: scroll;
   padding: 40px;
+  &::-webkit-scrollbar {
+     display: none;
+  }
 `;
+const Bottom = styled.div``;
 
 function App() {
   const [ toDos, setToDos ] = useRecoilState(toDoState);
