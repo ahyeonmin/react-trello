@@ -54,7 +54,7 @@ function DraggableCard({ toDoId, toDoText, index, boardId }: IDraggableCard) {
         return (month + "/" + date + " (" + day + ")");
     };
     const time = timestamp();
-    const [toDos, setToDos] = useRecoilState(toDoState);
+    const setToDos = useSetRecoilState(toDoState);
     const onDeleteToDo = () => {
         setToDos((allBoards) => {
             const crrTodo = [...allBoards[boardId]]; // 1) 현재 Board의 toDo 가져오기
