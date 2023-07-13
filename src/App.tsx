@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useRecoilState } from 'recoil';
-import { toDoState } from './atoms';
+import { boardModalState, toDoState } from './atoms';
 import Board from './Components/Board';
 import { FiSun } from 'react-icons/fi'
 import { FiPlus } from 'react-icons/fi'
+import BoardModal from './Components/BoardModal';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -45,7 +46,7 @@ const Bottom = styled.div`
   justify-content: space-between;
 `;
 const IconBox = styled.div`
-  width: 100px;
+  width: 120px;
   height: 100px;
   display: flex;
   justify-content: center;
@@ -58,6 +59,7 @@ const IconBox = styled.div`
 
 function App() {
   const [ toDos, setToDos ] = useRecoilState(toDoState);
+  const [boardModal, setBoardModal] = useRecoilState(boardModalState);
   const onDragEnd = ({ draggableId, destination, source }: DropResult) => { // 드래그가 끝났을 때 실행되는 함수
     if (!destination) return; // destination이 없다면 종료
     // <SAME board movement>
@@ -89,8 +91,12 @@ function App() {
       });
     }
   };
-  const onThemeSwitch = () => {};
-  const onAddBoard = () => {};
+  const onThemeSwitch = () => {
+    
+  };
+  const onAddBoard = () => {
+    setBoardModal(true);
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
@@ -100,18 +106,19 @@ function App() {
         <Content>
           <Boards>
             {Object.keys(toDos).map((boardId) => <Board key={boardId} toDos={toDos[boardId]} boardId={boardId}/>)}
+            {boardModal && <BoardModal />}
           </Boards>
         </Content>
         <Bottom>
           <IconBox
             onClick={onThemeSwitch}
-            style={{ left: "0px", bottom: "0px", borderTopRightRadius: "40px", fontSize: "55px" }}
+            style={{ left: "0px", bottom: "0px", borderTopRightRadius: "50px", fontSize: "55px" }}
           >
             <FiSun />
           </IconBox>
           <IconBox
             onClick={onAddBoard}
-            style={{ right: "0px", bottom: "0px", borderTopLeftRadius: "40px", fontSize: "62px" }}
+            style={{ right: "0px", bottom: "0px", borderTopLeftRadius: "50px", fontSize: "62px" }}
           >
             <FiPlus />
           </IconBox>
