@@ -3,8 +3,9 @@ import { Draggable } from "react-beautiful-dnd";
 import { styled } from "styled-components";
 import { BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai'
-import { toDoState } from "../atoms";
+import { timestampState, toDoState } from "../atoms";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { time } from "console";
 
 const Card = styled.div<{ isDragging: boolean }>`
     margin-bottom: 10px;
@@ -17,6 +18,10 @@ const Card = styled.div<{ isDragging: boolean }>`
     font-size: 12px;
     &:hover {
         background-color: #afb3b535;
+        .cardIcons {
+            opacity: 1;
+            transition: 0.1s ease-in;
+        }
     }
     transition: background-color 0.1s ease-in;
 
@@ -31,6 +36,7 @@ const CardInfo = styled.div`
 const CardIcons = styled.div`
     display: flex;
     gap: 6px;
+    opacity: 0;
     div {
         &:hover {
             color: #2D2D2D;
@@ -46,14 +52,15 @@ interface IDraggableCard {
 };
 
 function DraggableCard({ toDoId, toDoText, index, boardId }: IDraggableCard) {
-    function timestamp() {
+    const [ timestamp, setTimestamp ] = useRecoilState(timestampState);
+    setTimestamp(() => {
         var dateName = ['일', '월', '화', '수', '목', '금', '토'];
         var month = new Date().getMonth() + 1;
         var date = new Date().getDate();
         var day = dateName[new Date().getDay()];
-        return (month + "/" + date + " (" + day + ")");
-    };
-    const time = timestamp();
+        console.log(timestamp);
+        return ( month + "/" + date + " (" + day + ")" );
+    });
     const setToDos = useSetRecoilState(toDoState);
     const onDeleteToDo = () => {
         setToDos((allBoards) => {
@@ -76,8 +83,8 @@ function DraggableCard({ toDoId, toDoText, index, boardId }: IDraggableCard) {
                 >
                     {toDoText}
                     <CardInfo>
-                        <div> {time} </div>
-                        <CardIcons>
+                        <div> {timestamp} </div>
+                        <CardIcons className="cardIcons">
                             <div> <BsFillPencilFill /> </div>
                             <div>
                                 <AiOutlineClose

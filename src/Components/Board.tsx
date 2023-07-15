@@ -4,12 +4,13 @@ import DraggableCard from "./DraggableCard";
 import { useForm } from "react-hook-form";
 import { ITodo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
+import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 274px;
-    padding: 10px 0;
+    padding: 11px 0;
     background-color: ${(props) => props.theme.boardColor};
     border-radius: 5px;
     box-shadow: 0px 0px 10px #afb3b580, 0px 0px 5px #afb3b542;
@@ -17,9 +18,15 @@ const Wrapper = styled.div`
     min-height: 60px;
     height: fit-content; // 컨텐츠(카드) 크기에 맞추기 !!! ㅎㅎ 신난다
 `;
+const TitleWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 0 12px;
+`;
 const Title = styled.div`
-    padding: 0 0 5px 15px;
+    padding-bottom: 5px;
     font-size: 14px;
+    font-weight: bolder;
 `;
 const Form = styled.form`
     padding: 0 10px;
@@ -69,7 +76,10 @@ function Board({ toDos, boardId }: IBoardProps) {
     };
     return (
         <Wrapper>
-            <Title>{boardId}</Title>
+            <TitleWrapper>
+                <Title>{boardId}</Title>
+                <HiOutlineDotsHorizontal style={{ fontSize: "20px", cursor: "pointer" }} />
+            </TitleWrapper>
             <Droppable droppableId={boardId}>
                 {(provided, snapshot) => (
                     <Area

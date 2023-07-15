@@ -24,6 +24,11 @@ export const toDoState = atom<IToDoState>({
     effects_UNSTABLE: [persistAtom], // sessionStorage
 });
 
+export const timestampState = atom({
+    key: "timestamp",
+    default: "",
+});
+
 export const boardModalState = atom<boolean>({
     key: "BoardModal",
     default: false,

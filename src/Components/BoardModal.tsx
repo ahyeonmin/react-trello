@@ -75,7 +75,7 @@ function BoardModal() {
             <Modal>
                 <Title> 새로운 보드의 이름을 입력하세요. </Title>
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <input {...register("board", { required: true })} type="text" />
+                    <input {...register("board", { required: true })} type="text" autoFocus />
                     <Buttons> {/* Form 안에 button이 2개 이상일 경우 type 명시해야 함 */}
                         <Button onClick={onCloseClicked} type="button"> 닫기 </Button>
                         <Button type="submit"> 확인 </Button>
