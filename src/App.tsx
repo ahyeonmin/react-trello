@@ -36,7 +36,7 @@ const Boards = styled.div`
   width: 100%;
   grid-template-columns: repeat(100, 1fr);
   overflow: scroll;
-  padding: 40px;
+  padding: 20px 10px;
   &::-webkit-scrollbar {
      display: none;
   }

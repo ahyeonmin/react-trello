@@ -62,6 +62,11 @@ const GlobalStyled = createGlobalStyle`
     font-family: 'UnDinaru';
     outline: none;
   }
+  button {
+    font-family: 'UnDinaru';
+    background: none;
+    border: none;
+  }
 `;
 
 const root = ReactDOM.createRoot(

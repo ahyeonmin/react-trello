@@ -8,7 +8,7 @@ import { useSetRecoilState } from "recoil";
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 274px;
     padding: 10px 0;
     background-color: ${(props) => props.theme.boardColor};
     border-radius: 5px;
@@ -86,7 +86,7 @@ function Board({ toDos, boardId }: IBoardProps) {
                 )}
             </Droppable>
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <input {...register("toDo", { required: true })} type="text" placeholder={`+ 메모를 추가하세요.`} />
+                <input {...register("toDo", { required: true })} type="text" placeholder={`+ 카드를 추가하세요.`} />
             </Form>
         </Wrapper>
     );

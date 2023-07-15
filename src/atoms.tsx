@@ -19,10 +19,7 @@ const { persistAtom } = recoilPersist({
 export const toDoState = atom<IToDoState>({
     key: "toDo",
     default: {
-        "할 일": [],
-        "수행 중...": [],
-        "다 했다!": [],
-        "아이디어": [],
+        "새로운 보드": [],
     },
     effects_UNSTABLE: [persistAtom], // sessionStorage
 });
