@@ -4,7 +4,8 @@ import DraggableCard from "./DraggableCard";
 import { useForm } from "react-hook-form";
 import { ITodo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
-import { HiOutlineDotsHorizontal } from 'react-icons/hi';
+import { BsFillPencilFill } from 'react-icons/bs';
+import { AiOutlineClose } from 'react-icons/ai'
 
 const Wrapper = styled.div`
     display: flex;
@@ -17,6 +18,12 @@ const Wrapper = styled.div`
     margin: 0 5px;
     min-height: 60px;
     height: fit-content; // 컨텐츠(카드) 크기에 맞추기 !!! ㅎㅎ 신난다
+    &:hover {
+        .boardIcons {
+            opacity: 1;
+            transition: 0.1s ease-in;
+        }
+    }
 `;
 const TitleWrapper = styled.div`
     display: flex;
@@ -24,9 +31,20 @@ const TitleWrapper = styled.div`
     padding: 0 12px;
 `;
 const Title = styled.div`
-    padding-bottom: 5px;
     font-size: 14px;
-    font-weight: bolder;
+`;
+const BoardIcons = styled.div`
+    display: flex;
+    gap: 6px;
+    color: #AFB3B5;
+    font-size: 11px;
+    opacity: 0;
+    cursor: pointer;
+    div {
+        &:hover {
+            color: #2D2D2D;
+        }
+    }
 `;
 const Form = styled.form`
     padding: 0 10px;
@@ -74,11 +92,27 @@ function Board({ toDos, boardId }: IBoardProps) {
         });
         setValue("toDo", ""); // 입력 후 엔터치면 빈칸으로
     };
+    const onDeleteBoard = () => {
+        setToDos((allBoards) => {
+            const copiedBoard = { ...allBoards };
+            delete copiedBoard[boardId];
+            const result = copiedBoard;
+            return result;
+        })
+    };
     return (
         <Wrapper>
             <TitleWrapper>
                 <Title>{boardId}</Title>
-                <HiOutlineDotsHorizontal style={{ fontSize: "20px", cursor: "pointer" }} />
+                <BoardIcons className="boardIcons">
+                    <div> <BsFillPencilFill /> </div>
+                    <div>
+                        <AiOutlineClose
+                            onClick={onDeleteBoard}
+                            style={{ position: "relative", bottom: "0.5px", fontSize: "13px" }}
+                        />
+                    </div>
+                </BoardIcons>
             </TitleWrapper>
             <Droppable droppableId={boardId}>
                 {(provided, snapshot) => (

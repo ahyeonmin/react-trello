@@ -5,7 +5,6 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai'
 import { timestampState, toDoState } from "../atoms";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { time } from "console";
 
 const Card = styled.div<{ isDragging: boolean }>`
     margin-bottom: 10px;
@@ -54,10 +53,10 @@ interface IDraggableCard {
 function DraggableCard({ toDoId, toDoText, index, boardId }: IDraggableCard) {
     const [ timestamp, setTimestamp ] = useRecoilState(timestampState);
     setTimestamp(() => {
-        var dateName = ['일', '월', '화', '수', '목', '금', '토'];
-        var month = new Date().getMonth() + 1;
-        var date = new Date().getDate();
-        var day = dateName[new Date().getDay()];
+        const dateName = ['일', '월', '화', '수', '목', '금', '토'];
+        const month = new Date().getMonth() + 1;
+        const date = new Date().getDate();
+        const day = dateName[new Date().getDay()];
         console.log(timestamp);
         return ( month + "/" + date + " (" + day + ")" );
     });
