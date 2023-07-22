@@ -48,26 +48,25 @@ const BoardIcons = styled.div`
 `;
 const Form = styled.form`
     padding: 0 10px;
-    input {
-        width: 93%;
-        border: none;
-        padding: 10px;
-        box-shadow: 0px 0px 10px #afb3b55f, 0px 0px 5px #afb3b535;
-        border-radius: 5px;
-        font-size: 12px;
-    }
 `;
-
-interface IAreaProps {
-    isDraggingOver: boolean;
-    draggingFromThisWith: boolean;
-};
+const Input = styled.input`
+    width: 92%;
+    border: none;
+    padding: 10px;
+    box-shadow: 0px 0px 10px #afb3b55f, 0px 0px 5px #afb3b535;
+    border-radius: 5px;
+    font-size: 12px;
+`
 const Area = styled.div<IAreaProps>`
     background-color: ${(props) => props.isDraggingOver ? "#ecf0f185" : "none"};
     flex-grow: 1; // 영역을 맨 아래까지 이어지도록 해서 드래그 영역을 넓힘
     transition: background-color 0.1s ease-in-out;
 `;
 
+interface IAreaProps {
+    isDraggingOver: boolean;
+    draggingFromThisWith: boolean;
+};
 interface IBoardProps {
     toDos: ITodo[];
     boardId: string;
@@ -92,6 +91,9 @@ function Board({ toDos, boardId }: IBoardProps) {
         });
         setValue("toDo", ""); // 입력 후 엔터치면 빈칸으로
     };
+    const onEditBoard = () => {
+        
+    }
     const onDeleteBoard = () => {
         setToDos((allBoards) => {
             const copiedBoard = { ...allBoards };
@@ -105,7 +107,11 @@ function Board({ toDos, boardId }: IBoardProps) {
             <TitleWrapper>
                 <Title>{boardId}</Title>
                 <BoardIcons className="boardIcons">
-                    <div> <BsFillPencilFill /> </div>
+                    <div>
+                        <BsFillPencilFill
+                            onClick={onEditBoard}
+                        />
+                    </div>
                     <div>
                         <AiOutlineClose
                             onClick={onDeleteBoard}
@@ -130,7 +136,7 @@ function Board({ toDos, boardId }: IBoardProps) {
                 )}
             </Droppable>
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <input {...register("toDo", { required: true })} type="text" placeholder={`+ 카드를 추가하세요.`} />
+                <Input {...register("toDo", { required: true })} type="text" placeholder={`+ 카드를 추가하세요.`} />
             </Form>
         </Wrapper>
     );
