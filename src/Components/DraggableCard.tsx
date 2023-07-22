@@ -4,7 +4,7 @@ import { styled } from "styled-components";
 import { BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineClose, AiOutlineCheckCircle } from 'react-icons/ai'
 import { timestampState, toDoState } from "../atoms";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 
 const Card = styled.div<{ isDragging: boolean }>`
@@ -38,7 +38,6 @@ const EditForm = styled.form`
         padding-bottom: 1px;
     }
     button {
-        padding-top: 4px;
         color: #AFB3B5;
         cursor: pointer;
         &:hover {
@@ -151,7 +150,7 @@ function DraggableCard({ toDoId, toDoText, index, boardId }: IDraggableCard) {
                                         onClick={handleSubmit(onEditToDo)}
                                         style={{ fontSize: "16px" }}
                                     />
-                                </button >
+                                </button>
                             </EditForm>
                     }
                 </Card>}

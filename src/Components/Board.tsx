@@ -5,7 +5,8 @@ import { useForm } from "react-hook-form";
 import { ITodo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
 import { BsFillPencilFill } from 'react-icons/bs';
-import { AiOutlineClose } from 'react-icons/ai'
+import { AiOutlineClose, AiOutlineCheckCircle } from 'react-icons/ai'
+import { useState } from "react";
 
 const Wrapper = styled.div`
     display: flex;
@@ -46,6 +47,28 @@ const BoardIcons = styled.div`
         }
     }
 `;
+const EditForm = styled.form`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 274px;
+    color: #AFB3B5;
+    input {
+        width: 100%;
+        font-size: 14px;
+        border: none;
+        background: none;
+        padding-bottom: 1px;
+    }
+    button {
+        padding-top: 4px;
+        color: #AFB3B5;
+        cursor: pointer;
+        &:hover {
+            color: #2D2D2D;
+        }
+    }
+`;
 const Form = styled.form`
     padding: 0 10px;
 `;
@@ -73,11 +96,14 @@ interface IBoardProps {
 };
 interface IForm {
     toDo: string;
+    board: string;
 }
 
 function Board({ toDos, boardId }: IBoardProps) {
+    const [ edited, setEdited ] = useState(true);
     const setToDos = useSetRecoilState(toDoState);
     const { register, setValue, handleSubmit } = useForm<IForm>();
+    const { register: editedResgister, handleSubmit: editedHandleSubmit } = useForm<IForm>();
     const onSubmit = ({ toDo }: IForm) => {
         const newToDo = {
             id: Date.now(), // 중복되지 않는 특별한 값
@@ -91,8 +117,8 @@ function Board({ toDos, boardId }: IBoardProps) {
         });
         setValue("toDo", ""); // 입력 후 엔터치면 빈칸으로
     };
-    const onEditBoard = () => {
-        
+    const onClickedEditBoard = () => {
+        setEdited(!edited);
     }
     const onDeleteBoard = () => {
         setToDos((allBoards) => {
@@ -100,25 +126,48 @@ function Board({ toDos, boardId }: IBoardProps) {
             delete copiedBoard[boardId];
             const result = copiedBoard;
             return result;
-        })
+        });
     };
+    const onEditBoard = ({ board }: IForm) => {
+        setToDos((allBoards) => {
+            const copiedBoard = { ...allBoards };
+            const editingBoard = copiedBoard[boardId];
+            delete copiedBoard[boardId];
+            const result = { [board]: editingBoard, ...copiedBoard };
+            return result;
+        });
+        setEdited(!edited);
+    }
     return (
         <Wrapper>
             <TitleWrapper>
-                <Title>{boardId}</Title>
-                <BoardIcons className="boardIcons">
-                    <div>
-                        <BsFillPencilFill
-                            onClick={onEditBoard}
-                        />
-                    </div>
-                    <div>
-                        <AiOutlineClose
-                            onClick={onDeleteBoard}
-                            style={{ position: "relative", bottom: "0.5px", fontSize: "13px" }}
-                        />
-                    </div>
-                </BoardIcons>
+                { edited ?
+                    <>
+                        <Title>{boardId}</Title>
+                        <BoardIcons className="boardIcons">
+                            <div>
+                                <BsFillPencilFill
+                                    onClick={onClickedEditBoard}
+                                />
+                            </div>
+                            <div>
+                                <AiOutlineClose
+                                    onClick={onDeleteBoard}
+                                    style={{ position: "relative", bottom: "0.5px", fontSize: "13px" }}
+                                />
+                            </div>
+                        </BoardIcons>
+                    </> :
+                        <EditForm onSubmit={editedHandleSubmit(onEditBoard)}>
+                            <input {...editedResgister("board", { required: true })} defaultValue={boardId} autoFocus />
+                            <button type="submit">
+                                <AiOutlineCheckCircle
+                                    onClick={editedHandleSubmit(onEditBoard)}
+                                    style={{ fontSize: "16px" }}
+                                />
+                            </button>
+                        </EditForm>
+                }
             </TitleWrapper>
             <Droppable droppableId={boardId}>
                 {(provided, snapshot) => (
