@@ -1,4 +1,4 @@
-import { Droppable } from "react-beautiful-dnd";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 import { styled } from "styled-components";
 import DraggableCard from "./DraggableCard";
 import { useForm } from "react-hook-form";
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
     padding: 11px 0;
     background-color: ${(props) => props.theme.boardColor};
     border-radius: 5px;
-    box-shadow: 0px 0px 10px #afb3b580, 0px 0px 5px #afb3b542;
+    box-shadow: 0px 0px 10px ${(props) => props.theme.BoardBoxShadowColor1}, 0px 0px 5px ${(props) => props.theme.BoardBoxShadowColor2};
     margin: 0 5px;
     min-height: 60px;
     height: fit-content; // 컨텐츠(카드) 크기에 맞추기 !!! ㅎㅎ 신난다
@@ -29,7 +29,7 @@ const Wrapper = styled.div`
 const TitleWrapper = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 0 12px;
+    padding: 8px 12px;
 `;
 const Title = styled.div`
     font-size: 14px;
@@ -43,7 +43,7 @@ const BoardIcons = styled.div`
     cursor: pointer;
     div {
         &:hover {
-            color: #2D2D2D;
+            color: ${(props) => props.theme.iconHoverColor};
         }
     }
 `;
@@ -59,6 +59,7 @@ const EditForm = styled.form`
         border: none;
         background: none;
         padding-bottom: 1px;
+        color: ${(props) => props.theme.textColor};
     }
     button {
         padding-top: 4px;
@@ -76,12 +77,14 @@ const Input = styled.input`
     width: 92%;
     border: none;
     padding: 10px;
-    box-shadow: 0px 0px 10px #afb3b55f, 0px 0px 5px #afb3b535;
+    box-shadow: 0px 0px 10px ${(props) => props.theme.CardBoxShadowColor1}, 0px 0px 5px ${(props) => props.theme.CardBoxShadowColor2};
     border-radius: 5px;
     font-size: 12px;
+    background-color: ${(props) => props.theme.inputColor};
+    color: ${(props) => props.theme.textColor};
 `
 const Area = styled.div<IAreaProps>`
-    background-color: ${(props) => props.isDraggingOver ? "#ecf0f185" : "none"};
+    background-color: ${(props) => props.isDraggingOver ? props.theme.isDraggingOverColor : "none"};
     flex-grow: 1; // 영역을 맨 아래까지 이어지도록 해서 드래그 영역을 넓힘
     transition: background-color 0.1s ease-in-out;
 `;

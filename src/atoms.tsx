@@ -33,3 +33,8 @@ export const boardModalState = atom<boolean>({
     key: "BoardModal",
     default: false,
 });
+
+export const isDarkModeState = atom({
+    key: "isDarkMode",
+    default: false,
+});

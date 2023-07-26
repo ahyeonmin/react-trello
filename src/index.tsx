@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { RecoilRoot } from 'recoil';
-import { ThemeProvider, createGlobalStyle } from 'styled-components';
-import { darkTheme } from './theme';
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyled = createGlobalStyle`
   @font-face {
@@ -37,7 +36,6 @@ const GlobalStyled = createGlobalStyle`
   body {
     line-height: 1;
     font-family: 'UnDinaru';
-    color: #2D2D2D;
   }
   ol, ul {
     list-style: none;
@@ -74,9 +72,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <RecoilRoot>
-    <ThemeProvider theme={darkTheme}>
       <GlobalStyled />
-      <App />
-    </ThemeProvider>
+        <App />
   </RecoilRoot>
 );

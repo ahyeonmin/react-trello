@@ -18,7 +18,7 @@ const Modal = styled.div`
   margin: 130px auto;
   border-radius: 7px;
   background-color: ${(props) => props.theme.boardColor};
-  box-shadow: 0px 0px 10px #afb3b55f, 0px 0px 5px #afb3b535;
+  box-shadow: 0px 0px 10px ${(props) => props.theme.BoardBoxShadowColor1}, 0px 0px 5px ${(props) => props.theme.BoardBoxShadowColor2};
 `;
 const Title = styled.div`
     font-size: 14px;
@@ -32,10 +32,12 @@ const Form = styled.form`
         width:70%;
         margin-bottom: 40px;
         border: none;
-        box-shadow: 0px 0px 10px #afb3b55f, 0px 0px 5px #afb3b535;
+        box-shadow: 0px 0px 10px ${(props) => props.theme.CardBoxShadowColor1}, 0px 0px 5px ${(props) => props.theme.CardBoxShadowColor2};
         padding:10px;
         border-radius: 5px;
+        background-color: ${(props) => props.theme.inputColor};
         font-size: 12px;
+        color: ${(props) => props.theme.textColor};
     }
 `;
 const Buttons = styled.div`
@@ -46,8 +48,9 @@ const Buttons = styled.div`
 const Button = styled.button`
     padding: 8px 50px;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px #afb3b55f, 0px 0px 5px #afb3b535;
+    box-shadow: 0px 0px 10px ${(props) => props.theme.BoardBoxShadowColor1}, 0px 0px 5px ${(props) => props.theme.BoardBoxShadowColor2};
     cursor: pointer;
+    color: ${(props) => props.theme.textColor};
 `;
 
 interface IForm {

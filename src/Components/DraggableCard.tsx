@@ -12,7 +12,7 @@ const Card = styled.div<{ isDragging: boolean }>`
     margin: 10px;
     padding: 10px;
     background-color: ${(props) => props.theme.cardColor};
-    box-shadow: 0px 0px 10px #afb3b55f, 0px 0px 5px #afb3b535;
+    box-shadow: 0px 0px 10px ${(props) => props.theme.CardBoxShadowColor1}, 0px 0px 5px ${(props) => props.theme.CardBoxShadowColor2};
     border-radius: 5px;
     line-height: 15px;
     font-size: 12px;
@@ -35,7 +35,7 @@ const EditForm = styled.form`
         font-size: 12px;
         border: none;
         background: none;
-        padding-bottom: 1px;
+        color: ${(props) => props.theme.textColor};
     }
     button {
         color: #AFB3B5;
@@ -58,7 +58,7 @@ const CardIcons = styled.div`
     opacity: 0;
     div {
         &:hover {
-            color: #2D2D2D;
+            color: ${(props) => props.theme.iconHoverColor};
         }
     }
 `;

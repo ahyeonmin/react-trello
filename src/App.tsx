@@ -1,35 +1,38 @@
-import React, { useState } from 'react';
-import { styled } from 'styled-components';
+import React from 'react';
+import { ThemeProvider, styled } from 'styled-components';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useRecoilState } from 'recoil';
-import { boardModalState, toDoState } from './atoms';
+import { boardModalState, isDarkModeState, toDoState } from './atoms';
 import Board from './Components/Board';
-import { FiSun } from 'react-icons/fi'
-import { FiPlus } from 'react-icons/fi'
+import { FiSun, FiMoon } from 'react-icons/fi';
+import { FiPlus } from 'react-icons/fi';
 import BoardModal from './Components/BoardModal';
+import { darkTheme, lightTheme } from './theme';
 
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
+  color: ${(props) => props.theme.textColor};
 `;
 const Top = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #52BBA4;
+  background-color: ${(props) => props.theme.topColor};
+  border-bottom: 1px solid ${(props) => props.theme.topBorderColor};
   width: 100%;
   height: 4vh;
 `;
 const Logo = styled.div`
   font-size: 12px;
-  color: white;
+  color: ${(props) => props.theme.topTextColor};
 `;
 const Content = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
   height: 96vh;
-  background: linear-gradient(to top, white, #ACE0BB);
+  background: linear-gradient(to top, ${(props) => props.theme.bgColor}, ${(props) => props.theme.baseBgColor});
 `;
 const Boards = styled.div`
   display: grid;
@@ -52,8 +55,8 @@ const IconBox = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  background-color: #ffffffa5;
-  box-shadow: 0px 0px 10px #afb3b55f, 0px 0px 5px #afb3b535;
+  background-color: ${(props) => props.theme.iconBoxBgColor};
+  box-shadow: 0px 0px 10px ${(props) => props.theme.CardBoxShadowColor1}, 0px 0px 5px ${(props) => props.theme.CardBoxShadowColor2};
   cursor: pointer;
 `;
 
@@ -92,29 +95,32 @@ function App() {
     }
   };
   const onThemeSwitch = () => {
-    
+    isDarkModeSet((prev) => !prev);
   };
   const onAddBoard = () => {
     setBoardModal(true);
   };
+  const [isDarkMode, isDarkModeSet] = useRecoilState(isDarkModeState);
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <ThemeProvider theme={ isDarkMode ? lightTheme : darkTheme }>
       <Wrapper>
         <Top> 
           <Logo> 트렐로 </Logo>
         </Top>
         <Content>
+        <DragDropContext onDragEnd={onDragEnd}>
           <Boards>
             {Object.keys(toDos).map((boardId) => <Board key={boardId} toDos={toDos[boardId]} boardId={boardId}/>)}
             {boardModal && <BoardModal />}
           </Boards>
+          </DragDropContext>
         </Content>
         <Bottom>
           <IconBox
             onClick={onThemeSwitch}
             style={{ left: "0px", bottom: "0px", borderTopRightRadius: "50px", fontSize: "55px" }}
           >
-            <FiSun />
+            { isDarkMode ? <FiSun /> : <FiMoon /> }
           </IconBox>
           <IconBox
             onClick={onAddBoard}
@@ -124,7 +130,7 @@ function App() {
           </IconBox>
         </Bottom>
       </Wrapper>
-    </DragDropContext>
+    </ThemeProvider>
   );
 }
 
