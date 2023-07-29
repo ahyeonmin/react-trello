@@ -1,14 +1,15 @@
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Droppable } from "react-beautiful-dnd";
 import { styled } from "styled-components";
 import DraggableCard from "./DraggableCard";
 import { useForm } from "react-hook-form";
-import { ITodo, toDoState } from "../atoms";
-import { useSetRecoilState } from "recoil";
+import { ITodo, timestampState, toDoState } from "../atoms";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineClose, AiOutlineCheckCircle } from 'react-icons/ai'
 import { useState } from "react";
+import { easeInOut, motion } from "framer-motion";
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
     width: 274px;
@@ -16,7 +17,7 @@ const Wrapper = styled.div`
     background-color: ${(props) => props.theme.boardColor};
     border-radius: 5px;
     box-shadow: 0px 0px 10px ${(props) => props.theme.BoardBoxShadowColor1}, 0px 0px 5px ${(props) => props.theme.BoardBoxShadowColor2};
-    margin: 0 5px;
+    margin: 0px 5px;
     min-height: 60px;
     height: fit-content; // 컨텐츠(카드) 크기에 맞추기 !!! ㅎㅎ 신난다
     &:hover {
@@ -29,7 +30,7 @@ const Wrapper = styled.div`
 const TitleWrapper = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 8px 12px;
+    padding: 5px 12px;
 `;
 const Title = styled.div`
     font-size: 14px;
@@ -87,6 +88,7 @@ const Area = styled.div<IAreaProps>`
     background-color: ${(props) => props.isDraggingOver ? props.theme.isDraggingOverColor : "none"};
     flex-grow: 1; // 영역을 맨 아래까지 이어지도록 해서 드래그 영역을 넓힘
     transition: background-color 0.1s ease-in-out;
+    padding-bottom: 10px;
 `;
 
 interface IAreaProps {
@@ -105,8 +107,16 @@ interface IForm {
 function Board({ toDos, boardId }: IBoardProps) {
     const [ edited, setEdited ] = useState(true);
     const setToDos = useSetRecoilState(toDoState);
+    const [ timestamp, setTimestamp ] = useRecoilState(timestampState);
     const { register, setValue, handleSubmit } = useForm<IForm>();
     const { register: editedResgister, handleSubmit: editedHandleSubmit } = useForm<IForm>();
+    setTimestamp(() => {
+        const dateName = ['일', '월', '화', '수', '목', '금', '토'];
+        const month = new Date().getMonth() + 1;
+        const date = new Date().getDate();
+        const day = dateName[new Date().getDay()];
+        return ( month + "/" + date + " (" + day + ")" );
+    });
     const onSubmit = ({ toDo }: IForm) => {
         const newToDo = {
             id: Date.now(), // 중복되지 않는 특별한 값
@@ -142,7 +152,12 @@ function Board({ toDos, boardId }: IBoardProps) {
         setEdited(!edited);
     }
     return (
-        <Wrapper>
+        <Wrapper
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.1, ease: easeInOut }}
+        >
             <TitleWrapper>
                 { edited ?
                     <>
@@ -181,7 +196,7 @@ function Board({ toDos, boardId }: IBoardProps) {
                         {...provided.droppableProps}
                     >
                         {toDos.map((toDo, index) => (
-                            <DraggableCard key={toDo.id} index={index} toDoId={toDo.id} toDoText={toDo.text} boardId={boardId}/>
+                            <DraggableCard key={toDo.id} index={index} toDoId={toDo.id} toDoText={toDo.text} boardId={boardId} timestamp={timestamp}/>
                         ))}
                         {provided.placeholder} {/* Card 이동 시 Board 사이즈 유지 */}
                     </Area>

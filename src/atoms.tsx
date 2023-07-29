@@ -36,5 +36,5 @@ export const boardModalState = atom<boolean>({
 
 export const isDarkModeState = atom({
     key: "isDarkMode",
-    default: false,
+    default: true,
 });

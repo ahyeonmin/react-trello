@@ -4,12 +4,13 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useRecoilState } from 'recoil';
 import { boardModalState, isDarkModeState, toDoState } from './atoms';
 import Board from './Components/Board';
-import { FiSun, FiMoon } from 'react-icons/fi';
-import { FiPlus } from 'react-icons/fi';
+import { FiSun, FiMoon, FiPlus } from 'react-icons/fi';
+import { BsTrello } from 'react-icons/bs';
 import BoardModal from './Components/BoardModal';
 import { darkTheme, lightTheme } from './theme';
+import { easeInOut, motion } from 'framer-motion';
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   width: 100%;
   height: 100%;
   color: ${(props) => props.theme.textColor};
@@ -22,10 +23,11 @@ const Top = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.topBorderColor};
   width: 100%;
   height: 4vh;
+  gap: 5px;
+  color: ${(props) => props.theme.topTextColor};
+  font-size: 14px;
 `;
 const Logo = styled.div`
-  font-size: 12px;
-  color: ${(props) => props.theme.topTextColor};
 `;
 const Content = styled.div`
   display: flex;
@@ -48,7 +50,7 @@ const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const IconBox = styled.div`
+const IconBox = styled(motion.div)`
   width: 120px;
   height: 100px;
   display: flex;
@@ -103,9 +105,15 @@ function App() {
   const [isDarkMode, isDarkModeSet] = useRecoilState(isDarkModeState);
   return (
     <ThemeProvider theme={ isDarkMode ? lightTheme : darkTheme }>
-      <Wrapper>
+      <Wrapper
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.4, ease: easeInOut }}
+      >
         <Top> 
-          <Logo> 트렐로 </Logo>
+          <BsTrello />
+          <Logo> Trello </Logo>
         </Top>
         <Content>
         <DragDropContext onDragEnd={onDragEnd}>
@@ -119,14 +127,26 @@ function App() {
           <IconBox
             onClick={onThemeSwitch}
             style={{ left: "0px", bottom: "0px", borderTopRightRadius: "50px", fontSize: "55px" }}
+            transition={{
+              ease: "easeInOut",
+              duration: 0.2,
+            }}
           >
-            { isDarkMode ? <FiSun /> : <FiMoon /> }
+            <motion.div whileHover={{ scale: 1.15 }}>
+              { isDarkMode ? <FiSun /> : <FiMoon /> }
+            </motion.div>
           </IconBox>
           <IconBox
             onClick={onAddBoard}
             style={{ right: "0px", bottom: "0px", borderTopLeftRadius: "50px", fontSize: "62px" }}
+            transition={{
+              ease: "easeInOut",
+              duration: 0.2,
+            }}
           >
-            <FiPlus />
+            <motion.div whileHover={{ scale: 1.15 }}>
+              <FiPlus />
+            </motion.div>
           </IconBox>
         </Bottom>
       </Wrapper>

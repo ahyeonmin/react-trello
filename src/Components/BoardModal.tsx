@@ -2,8 +2,9 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { boardModalState, toDoState } from "../atoms";
 import { useForm } from "react-hook-form";
+import { easeInOut, motion } from "framer-motion";
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
 `;
 const Modal = styled.div`
   width: 20vw;
@@ -73,8 +74,14 @@ function BoardModal() {
         });
         setBoardModal(false);
     };
+    
     return (
-        <Wrapper>
+        <Wrapper
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.1, ease: easeInOut }}
+        >
             <Modal>
                 <Title> 새로운 보드의 이름을 입력하세요. </Title>
                 <Form onSubmit={handleSubmit(onSubmit)}>

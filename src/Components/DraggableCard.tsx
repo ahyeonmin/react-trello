@@ -3,9 +3,10 @@ import { Draggable } from "react-beautiful-dnd";
 import { styled } from "styled-components";
 import { BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineClose, AiOutlineCheckCircle } from 'react-icons/ai'
-import { timestampState, toDoState } from "../atoms";
+import { toDoState } from "../atoms";
 import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
+import { easeInOut, motion } from "framer-motion";
 
 const Card = styled.div<{ isDragging: boolean }>`
     margin-bottom: 10px;
@@ -68,22 +69,15 @@ interface IDraggableCard {
     toDoText: string;
     index: number;
     boardId: string;
+    timestamp: string;
 };
 interface IForm {
     toDo: string;
 }
 
-function DraggableCard({ toDoId, toDoText, index, boardId }: IDraggableCard) {
-    const [ timestamp, setTimestamp ] = useRecoilState(timestampState);
+function DraggableCard({ toDoId, toDoText, index, boardId, timestamp }: IDraggableCard) {
     const [ edited, setEdited ] = useState(true);
     const { register, setValue, handleSubmit } = useForm<IForm>();
-    setTimestamp(() => {
-        const dateName = ['일', '월', '화', '수', '목', '금', '토'];
-        const month = new Date().getMonth() + 1;
-        const date = new Date().getDate();
-        const day = dateName[new Date().getDay()];
-        return ( month + "/" + date + " (" + day + ")" );
-    });
     const [ toDos ,setToDos ] = useRecoilState(toDoState);
     const onClickedEditToDo = () => {
         setEdited(!edited);
@@ -123,6 +117,12 @@ function DraggableCard({ toDoId, toDoText, index, boardId }: IDraggableCard) {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                 >
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.1, ease: easeInOut }}
+                    >
                     { edited ?
                         <>
                             {toDoText}
@@ -153,6 +153,7 @@ function DraggableCard({ toDoId, toDoText, index, boardId }: IDraggableCard) {
                                 </button>
                             </EditForm>
                     }
+                    </motion.div>
                 </Card>}
         </Draggable>
         </>
