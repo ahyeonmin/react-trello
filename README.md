@@ -15,4 +15,12 @@
 <br/>
 
 ## 🛠️&nbsp; 기술 스택
+`React`
 `Typescript`
+`React Hook Form`
+`Recoil`
+`Styled Components`
+`React Beautiful Dnd`
+
+<br/>
+
